@@ -145,95 +145,95 @@ class Render(object):
                 except:
                     pass
 
-    def load(self, filename, translate, scale):
-        model = Obj(filename)
+    def load(self, ofile, trans, size):
+        model = Obj(ofile)
 
-        light = V3(0, 0, 1)
+        ilum = V3(0, 0, 1)
 
-        for face in model.f:
-            vcount = len(face)
+        for fc in model.f:
+            vcount = len(fc)
 
             if vcount == 3:
-                f1 = face[0][0] - 1
-                f2 = face[1][0] - 1
-                f3 = face[2][0] - 1
+                fc1 = fc[0][0] - 1
+                fc2 = fc[1][0] - 1
+                fc3 = fc[2][0] - 1
 
-                v1 = V3(model.v[f1][0],
-                        model.v[f1][1], model.v[f1][2])
-                v2 = V3(model.v[f2][0],
-                        model.v[f2][1], model.v[f2][2])
-                v3 = V3(model.v[f3][0],
-                        model.v[f3][1], model.v[f3][2])
+                vt1 = V3(model.v[fc1][0],
+                         model.v[fc1][1], model.v[fc1][2])
+                vt2 = V3(model.v[fc2][0],
+                         model.v[fc2][1], model.v[fc2][2])
+                vt3 = V3(model.v[fc3][0],
+                         model.v[fc3][1], model.v[fc3][2])
 
-                x1 = round((v1.x * scale.x) + translate.x)
-                y1 = round((v1.y * scale.y) + translate.y)
-                z1 = round((v1.z * scale.z) + translate.z)
+                a1 = round((vt1.x * size.x) + trans.x)
+                b1 = round((vt1.y * size.y) + trans.y)
+                c1 = round((vt1.z * size.z) + trans.z)
 
-                x2 = round((v2.x * scale.x) + translate.x)
-                y2 = round((v2.y * scale.y) + translate.y)
-                z2 = round((v2.z * scale.z) + translate.z)
+                a2 = round((vt2.x * size.x) + trans.x)
+                b2 = round((vt2.y * size.y) + trans.y)
+                c2 = round((vt2.z * size.z) + trans.z)
 
-                x3 = round((v3.x * scale.x) + translate.x)
-                y3 = round((v3.y * scale.y) + translate.y)
-                z3 = round((v3.z * scale.z) + translate.z)
+                a3 = round((vt3.x * size.x) + trans.x)
+                b3 = round((vt3.y * size.y) + trans.y)
+                c3 = round((vt3.z * size.z) + trans.z)
 
-                A = V3(x1, y1, z1)
-                B = V3(x2, y2, z2)
-                C = V3(x3, y3, z3)
+                vx1 = V3(a1, b1, c1)
+                vx2 = V3(a2, b2, c2)
+                vx3 = V3(a3, b3, c3)
 
-                normal = cross(sub(B, A), sub(C, A))
-                intensity = dot(norm(normal), light)
-                grey = round(255 * intensity)
-                if grey < 0:
+                normvar = cross(sub(vx2, vx1), sub(vx3, vx1))
+                ints = dot(norm(normvar), ilum)
+                grays = round(255 * ints)
+                if grays < 0:
                     continue
 
-                intensityColor = color(grey, grey, grey)
-                self.drawtriangle(A, B, C, intensityColor)
+                intensityColor = color(grays, grays, grays)
+                self.drawtriangle(vx1, vx2, vx3, intensityColor)
 
             else:
-                f1 = face[0][0] - 1
-                f2 = face[1][0] - 1
-                f3 = face[2][0] - 1
-                f4 = face[3][0] - 1
+                fc1 = fc[0][0] - 1
+                fc2 = fc[1][0] - 1
+                fc3 = fc[2][0] - 1
+                fc4 = fc[3][0] - 1
 
-                v1 = V3(model.vertices[f1][0],
-                        model.vertices[f1][1], model.vertices[f1][2])
-                v2 = V3(model.vertices[f2][0],
-                        model.vertices[f2][1], model.vertices[f2][2])
-                v3 = V3(model.vertices[f3][0],
-                        model.vertices[f3][1], model.vertices[f3][2])
-                v4 = V3(model.vertices[f4][0],
-                        model.vertices[f4][1], model.vertices[f4][2])
+                vt1 = V3(model.vertices[fc1][0],
+                         model.vertices[fc1][1], model.vertices[fc1][2])
+                vt2 = V3(model.vertices[fc2][0],
+                         model.vertices[fc2][1], model.vertices[fc2][2])
+                vt3 = V3(model.vertices[fc3][0],
+                         model.vertices[fc3][1], model.vertices[fc3][2])
+                vt4 = V3(model.vertices[fc4][0],
+                         model.vertices[fc4][1], model.vertices[fc4][2])
 
-                x1 = round((v1.x * scale.x) + translate.x)
-                y1 = round((v1.y * scale.y) + translate.y)
-                z1 = round((v1.z * scale.z) + translate.z)
+                a1 = round((vt1.x * size.x) + trans.x)
+                b1 = round((vt1.y * size.y) + trans.y)
+                c1 = round((vt1.z * size.z) + trans.z)
 
-                x2 = round((v2.x * scale.x) + translate.x)
-                y2 = round((v2.y * scale.y) + translate.y)
-                z2 = round((v2.z * scale.z) + translate.z)
+                a2 = round((vt2.x * size.x) + trans.x)
+                b2 = round((vt2.y * size.y) + trans.y)
+                c2 = round((vt2.z * size.z) + trans.z)
 
-                x3 = round((v3.x * scale.x) + translate.x)
-                y3 = round((v3.y * scale.y) + translate.y)
-                z3 = round((v3.z * scale.z) + translate.z)
+                a3 = round((vt3.x * size.x) + trans.x)
+                b3 = round((vt3.y * size.y) + trans.y)
+                c3 = round((vt3.z * size.z) + trans.z)
 
-                x4 = round((v4.x * scale.x) + translate.x)
-                y4 = round((v4.y * scale.y) + translate.y)
-                z4 = round((v4.z * scale.z) + translate.z)
+                a4 = round((vt4.x * size.x) + trans.x)
+                b4 = round((vt4.y * size.y) + trans.y)
+                c4 = round((vt4.z * size.z) + trans.z)
 
-                A = V3(x1, y1, z1)
-                B = V3(x2, y2, z2)
-                C = V3(x3, y3, z3)
-                D = V3(x4, y4, z4)
+                vx1 = V3(a1, b1, c1)
+                vx2 = V3(a2, b2, c2)
+                vx3 = V3(a3, b3, c3)
+                D = V3(a4, b4, c4)
 
-                normal = cross(sub(B, A), sub(C, A))
-                intensity = dot(norm(normal), light)
-                grey = round(intensity * 255)
-                if grey < 0:
+                normvar = cross(sub(vx2, vx1), sub(vx3, vx1))
+                ints = dot(norm(normvar), ilum)
+                grays = round(ints * 255)
+                if grays < 0:
                     continue
-                intensityColor = color(grey, grey, grey)
+                intensityColor = color(grays, grays, grays)
 
-                self.drawtriangle(A, B, C, intensityColor)
+                self.drawtriangle(vx1, vx2, vx3, intensityColor)
 
-                self.drawtriangle(A, D, C, intensityColor)
+                self.drawtriangle(vx1, D, vx3, intensityColor)
         self.write()
